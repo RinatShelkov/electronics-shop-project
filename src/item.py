@@ -46,8 +46,6 @@ class Item:
             for result in results:
                 print(result['name'], result['price'], result['quantity'])
 
-
-
     @staticmethod
     def string_to_number(number_string):
         number = int(re.findall(r"\d+", number_string)[0])
