@@ -8,6 +8,7 @@ class Item:
     """
     Класс для представления товара в магазине.
     """
+
     pay_rate = 1
     all = []
 
@@ -26,11 +27,12 @@ class Item:
         Item.all.append(self)
 
     def __repr__(self):
-        return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
+        return (
+            f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
+        )
 
     def __str__(self):
-        return f'{self.__name}'
-
+        return f"{self.__name}"
 
     @property
     def name(self):
@@ -48,10 +50,10 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, file_csv):
         Item.all.append(cls)
-        with open(ROOT_PATH.joinpath(file_csv), newline='') as csvfile:
+        with open(ROOT_PATH.joinpath(file_csv), newline="") as csvfile:
             results = csv.DictReader(csvfile)
             for result in results:
-                print(result['name'], result['price'], result['quantity'])
+                print(result["name"], result["price"], result["quantity"])
 
     @staticmethod
     def string_to_number(number_string):
