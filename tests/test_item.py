@@ -37,12 +37,16 @@ def test_item_homework_1(item_1):
     assert Item.string_to_number("5") == 5
 
     # Проверка работоспобоности @classmethod
+
+
 def test_from_csv(capsys):
     Item.instantiate_from_csv("src/items.csv")
     log_text = capsys.readouterr()
     assert log_text.out.strip() == "Смартфон 100 1\nНоутбук 1000 3\nКабель 10 5\nМышка 50 5\nКлавиатура 75 5"
 
     # Проверка работоспособности __repr__ и __str__
+
+
 def test_repr_str(item_1):
     assert repr(item_1) == "Item('Смартфон', 10000, 20)"
     assert str(item_1) == "Смартфон"
