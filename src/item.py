@@ -40,14 +40,14 @@ class Item:
 
     @property
     def name(self):
-        Item.all.append(self)
+
         return self.__name
 
     @name.setter
     def name(self, name):
         """в сеттере `name` проверяет, что длина наименования товара не больше 10 симвовов. В противном случае,
         обрезать строку (оставить первые 10 символов)"""
-        Item.all.append(self)
+
         if len(name) <= 10:
             self.__name = name
         else:
@@ -56,7 +56,7 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, file_csv):
         """класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv_"""
-        Item.all.append(cls)
+
         with open(ROOT_PATH.joinpath(file_csv), newline="") as csvfile:
             results = csv.DictReader(csvfile)
             for result in results:

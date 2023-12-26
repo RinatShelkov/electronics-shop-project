@@ -12,7 +12,7 @@ class Phone(Item):
     @property
     # ВЫзываем переменную в которую поместили значение сим карт
     def number_of_sim(self):
-        Item.all.append(self)
+
         return self.__number_of_sim
 
     @number_of_sim.setter
