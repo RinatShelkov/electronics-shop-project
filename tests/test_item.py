@@ -2,12 +2,47 @@
 import pytest
 
 from src.item import Item
+from src.phone import Phone
 
 
 @pytest.fixture
 def item_1():
     item1 = Item("Смартфон", 10000, 20)
     return item1
+
+
+@pytest.fixture
+def phone_1():
+    phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    return phone1
+
+
+@pytest.fixture
+def unknow_class():
+    class Unknow:
+        """
+        Класс для теста.
+        """
+
+        def __init__(self, name: str, price: float, quantity: int) -> None:
+            """
+            Создание экземпляра класса item.
+
+            :param name: Название товара.
+            :param price: Цена за единицу товара.
+            :param quantity: Количество товара в магазине.
+            """
+            self.__name = name
+            self.price = price
+            self.quantity = quantity
+
+        def __add__(self, other):
+            if isinstance(other, Item):
+                return self.quantity + other.quantity
+            raise TypeError("Складывать можно только объекты классов с родительским классом Item")
+
+    unknow_class = Unknow("Смартфон", 10000, 20)
+    return unknow_class
 
 
 def test_item_homework_1(item_1):
@@ -50,3 +85,11 @@ def test_from_csv(capsys):
 def test_repr_str(item_1):
     assert repr(item_1) == "Item('Смартфон', 10000, 20)"
     assert str(item_1) == "Смартфон"
+
+
+def test_add(item_1, phone_1, unknow_class):
+    assert item_1 + phone_1 == 25
+    assert phone_1 + phone_1 == 10
+
+    with pytest.raises(TypeError):
+        phone_1 + unknow_class

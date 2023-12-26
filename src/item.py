@@ -32,6 +32,11 @@ class Item:
     def __str__(self):
         return f"{self.__name}"
 
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        raise TypeError("Складывать можно только объекты классов с родительским классом Item")
+
     @property
     def name(self):
         Item.all.append(self)
@@ -39,6 +44,8 @@ class Item:
 
     @name.setter
     def name(self, name):
+        """в сеттере `name` проверяет, что длина наименования товара не больше 10 симвовов. В противном случае,
+        обрезать строку (оставить первые 10 символов)"""
         Item.all.append(self)
         if len(name) <= 10:
             self.__name = name
@@ -47,6 +54,7 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls, file_csv):
+        """класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv_"""
         Item.all.append(cls)
         with open(ROOT_PATH.joinpath(file_csv), newline="") as csvfile:
             results = csv.DictReader(csvfile)
@@ -55,6 +63,7 @@ class Item:
 
     @staticmethod
     def string_to_number(number_string):
+        """статический метод, возвращающий число из числа-строки"""
         number = int(re.findall(r"\d+", number_string)[0])
         return number
 
