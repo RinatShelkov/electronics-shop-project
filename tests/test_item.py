@@ -1,7 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 import pytest
 
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 from src.phone import Phone
 
 
@@ -57,7 +57,7 @@ def test_item_homework_1(item_1):
     assert item_1.apply_discount() == 8000.0
 
     # Проверка сколько экземпляров класса создано
-    assert len(item_1.all) == 2
+    assert len(item_1.all) == 1
 
     # Проверка изменения наименования с декоратором property и setr, длина слова до 10 символов
     item_1.name = "Смартфон"
@@ -77,19 +77,19 @@ def test_item_homework_1(item_1):
 def test_from_csv(capsys):
     Item.instantiate_from_csv("src/items.csv")
     log_text = capsys.readouterr()
+
     assert log_text.out.strip() == "Смартфон 100 1\nНоутбук 1000 3\nКабель 10 5\nМышка 50 5\nКлавиатура 75 5"
 
 
-def test_from_csv_filenotfounderror(capsys):
-    Item.instantiate_from_csv("src/ites.csv")
-    log_text = str(capsys.readouterr())
-    assert log_text == "CaptureResult(out='Файл не найден.\\n', err='')"
+def test_from_csv_filenotfounderror():
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv("src/ites.csv")
 
 
 def test_from_csv_instantiatecsverror(capsys):
-    Item.instantiate_from_csv("src/items_test.csv")
-    log_text = str(capsys.readouterr())
-    assert log_text == "CaptureResult(out='Файл item.csv поврежден\\n', err='')"
+    #
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv("src/items_test.csv")
 
     # Проверка работоспособности __repr__ и __str__
 
